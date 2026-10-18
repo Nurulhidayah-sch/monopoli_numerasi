@@ -99,6 +99,19 @@ header.top b{font-size:24px;display:block;line-height:1.1}header.top small{opaci
 .k-d{background:#d9edff}.k-j,.k-w{background:#ffd6a5}.k-f{background:#e8ffd9}.k-n,.k-u{background:#f1f1f1}
 .pw i{width:clamp(6px,1.3vw,12px);height:clamp(6px,1.3vw,12px)}#mid .btn{margin:0}
 #mod.aiv .btn{pointer-events:none}
+#tut{display:none;position:fixed;inset:0;background:rgba(27,42,73,.6);align-items:center;justify-content:center;padding:14px;z-index:30;overflow:auto;backdrop-filter:blur(3px)}
+#tut .card{max-width:640px;width:100%;margin:auto}
+.sc{position:relative;height:190px;border:2px solid var(--ink);border-radius:12px;background:var(--paper);overflow:hidden;margin:10px 0;font-size:34px;line-height:1.1}.sc>*{position:absolute}
+.mt{width:44px;height:56px;top:62px;background:#fff;border:2px solid var(--ink);border-radius:6px;font-size:22px;text-align:center;padding-top:14px}
+.tkn{width:22px;height:22px;border-radius:50%;border:3px solid var(--ink);background:var(--red)}
+.dots{display:flex;gap:6px;justify-content:center}.dots i{width:10px;height:10px;border-radius:50%;border:2px solid var(--ink)}.dots i.on{background:var(--coin)}
+@keyframes tq2{0%{opacity:0}3%,47%{opacity:1}50%,100%{opacity:0}}@keyframes tq3{0%{opacity:0}2%,31%{opacity:1}34%,100%{opacity:0}}@keyframes tq4{0%{opacity:0}2%,22%{opacity:1}25%,100%{opacity:0}}
+@keyframes tfall{0%{transform:translateY(-50px);opacity:0}30%{opacity:1}70%,100%{transform:translateY(40px);opacity:1}}
+@keyframes twalk{from{left:20px}to{left:260px}}@keyframes tshake{25%{transform:rotate(-15deg)}75%{transform:rotate(15deg)}}
+@keyframes tfly{0%{left:70px;opacity:0}15%,85%{opacity:1}100%{left:240px;opacity:0}}
+@keyframes tpop{0%,66%{transform:scale(0)}72%,100%{transform:scale(1)}}@keyframes tflip{0%,30%{transform:rotateY(0)}60%,100%{transform:rotateY(360deg)}}
+@keyframes tbob{50%{transform:translateY(-12px)}}@keyframes town{0%,65%{box-shadow:none}70%,100%{box-shadow:0 0 0 5px var(--red)}}
+@keyframes tjail{0%,25%{left:30px}60%,100%{left:262px}}@keyframes tconf{to{transform:translateY(230px) rotate(360deg)}}
 </style></head><body>
 <div class="wrap">
 <header class="top"><span class="logo">🎲</span><div><b class="f">Monopoli Numerasi</b><small>Literasi &amp; Numerasi · Kelas VII, VIII, IX</small></div></header>
@@ -106,6 +119,7 @@ header.top b{font-size:24px;display:block;line-height:1.1}header.top small{opaci
 <div id="setup" class="card">
  <h1>Monopoli Numerasi</h1>
  <p style="margin:0 0 8px">Beli aset, hitung diskon, bayar sewa dan pajak. Semua lewat hitungan cepat!</p><div class="chips"><span>⚡ Berhitung cepat</span><span>🏷️ Estimasi diskon</span><span>💰 Kelola modal</span><span>🎯 Analisis risiko</span></div>
+ <button class="btn alt" id="how" style="width:100%;margin:6px 0">📖 Cara Bermain (pemula? mulai di sini)</button>
  <div class="row"><label for="np">Jumlah tim</label>
   <select id="np"><option>2</option><option selected>3</option><option>4</option></select>
   <label for="lv">Soal</label>
@@ -118,22 +132,22 @@ header.top b{font-size:24px;display:block;line-height:1.1}header.top small{opaci
   <li>Tiap tim mulai dengan modal pilihanmu (standar Rp1.500rb). Lewat START dapat gaji Rp200rb.</li>
   <li>Mode Lawan AI: kamu jadi Tim 1, tim lainnya dimainkan komputer (menjawab soal dengan akurasi ±70%).</li>
   <li>Lempar 2 dadu. Kembar = lempar lagi; kembar 3x berturut-turut = masuk penjara.</li>
-  <li>Petak kosong (properti, stasiun, PLN/PDAM): jawab soal diskon, benar = harga diskon, salah = harga normal. Boleh beli atau lewati.</li>
+  <li>Petak kosong (properti, stasiun, PLN/PDAM): jawab soal diskon, benar = harga diskon, salah = harga normal. Kalau dilewati, petak dilelang ke semua tim.</li>
   <li>Kuasai semua petak satu warna: sewa 2x, lalu bangun rumah (maks. 4) dan hotel lewat tombol Kelola Aset (bisa juga gadai).</li>
-  <li>Petak milik tim lain: hitung sewanya. Salah kena denda Rp10rb. Ada juga Pajak, Kartu Kesempatan, Dana Umum, dan Penjara.</li>
+  <li>Petak milik tim lain: hitung sewanya. Salah kena denda Rp10rb. Ada juga Pajak, Kartu Kesempatan, Dana Umum, dan Penjara. Antar tim boleh tukar aset lewat Kelola Aset.</li>
   <li>Uang kurang: rumah dijual dan aset digadai otomatis. Masih kurang = bangkrut. Menang: sisa terakhir, atau kekayaan terbesar saat ronde habis.</li>
  </ul>
 </div>
 
 <div id="game">
  <div id="board"></div>
- <div id="side">
+ <div id="side"><button class="btn alt" id="how2" style="width:100%;margin-bottom:12px">📖 Cara Bermain</button>
   <div class="card"><h2 style="font-size:18px;margin-bottom:6px">Ronde <span id="rd"></span></h2><div id="pls"></div></div>
   <div class="card"><h2 style="font-size:18px;margin-bottom:6px">Catatan</h2><ul id="log"></ul></div>
  </div>
 </div>
 </div>
-<div id="mod" role="dialog" aria-modal="true"></div>
+<div id="mod" role="dialog" aria-modal="true"></div><div id="tut" role="dialog" aria-modal="true"></div>
 
 <script>
 const $=s=>document.querySelector(s),r=(a,b)=>Math.floor(Math.random()*(b-a+1))+a,pick=a=>a[r(0,a.length-1)],fmt=n=>n.toLocaleString('id-ID'),rp=n=>'Rp'+fmt(n)+'rb';
@@ -244,7 +258,7 @@ function opts(a){const s=new Set([a]),d=Math.max(1,Math.round(Math.abs(a)*.1));l
 /* ---------- Status & tampilan ---------- */
 let S={},O=[],H=[],Mg=[];
 const cp=()=>S.pl[S.cur],worth=i=>S.pl[i].m+O.reduce((s,o,j)=>s+(o===i?(Mg[j]?T[j].p/2:T[j].p)+H[j]*(T[j].hc||0):0),0);
-const full=i=>{const t=T[i];return !!t.set&&t.set.every(j=>O[j]===O[i])};
+const full=i=>{const t=T[i];return !!t.set&&t.set.every(j=>O[j]===O[i])},pool=()=>{let h=0,o=0;H.forEach(v=>v===5?o++:h+=v);return[32-h,12-o]};
 function log(t){S.log.unshift(t);S.log=S.log.slice(0,30)}
 function buildBoard(){
  $('#board').innerHTML=T.map((t,i)=>{const [rw,c]=xy(i);return`<div class="t k-${t.k}" id="t${i}" style="grid-area:${rw}/${c}">${t.g?`<div class="bar" style="background:${t.g}"></div>`:''}<span class="hs"></span><span class="e">${t.e}</span><b>${t.n}</b>${t.p?`<small>${t.p}</small>`:''}<div class="pw"></div></div>`}).join('')+
@@ -286,22 +300,60 @@ function move(k){const P=cp();hide();if(P.out)return endTurn();
 function jail(P){P.pos=10;P.jail=3;S.dbl=0;log(`${P.n} masuk penjara`)}
 function manage(){const P=cp(),me=S.cur,mine=T.map((_,i)=>i).filter(i=>O[i]===me),ub=t=>Math.round(t.p/2*1.1);
  const rows=mine.map(i=>{const t=T[i],hs=H[i],st=t.set;
-  const cB=t.hc&&full(i)&&!st.some(j=>Mg[j])&&hs<5&&P.m>=t.hc&&st.every(j=>H[j]>=hs),cS=hs>0&&st.every(j=>H[j]<=hs),cM=!Mg[i]&&!(st&&st.some(j=>H[j]>0)),cU=Mg[i]&&P.m>=ub(t);
+  const cB=t.hc&&full(i)&&!st.some(j=>Mg[j])&&hs<5&&(hs<4?pool()[0]>0:pool()[1]>0)&&P.m>=t.hc&&st.every(j=>H[j]>=hs),cS=hs>0&&st.every(j=>H[j]<=hs),cM=!Mg[i]&&!(st&&st.some(j=>H[j]>0)),cU=Mg[i]&&P.m>=ub(t);
   return`<div class="row" style="border-bottom:1px solid var(--line);margin:4px 0"><span class="dot" style="background:${t.g||'#ccc'}"></span><b style="flex:1">${t.e} ${t.n}</b><span>${Mg[i]?'🔒':hs===5?'🏨':'🏠'.repeat(hs)}</span>${t.hc?`<button class="btn sm" data-a="b${i}" ${cB?'':'disabled'}>+Rumah ${t.hc}</button><button class="btn alt sm" data-a="s${i}" ${cS?'':'disabled'}>Jual</button>`:''}<button class="btn alt sm" data-a="${Mg[i]?'u':'m'}${i}" ${(Mg[i]?cU:cM)?'':'disabled'}>${Mg[i]?'Tebus '+ub(t):'Gadai '+t.p/2}</button></div>`}).join('')||'<p>Belum punya aset.</p>';
- show(`<h2>🏗️ Kelola Aset: ${P.n}</h2><p>Uang ${rp(P.m)}. Bangun rumah jika menguasai semua petak satu warna (harus rata, 5 = hotel). Jual rumah = setengah harga.</p>${rows}<div class="row"><button class="btn" id="cl2">Selesai</button></div>`);
+ show(`<h2>🏗️ Kelola Aset: ${P.n}</h2><p>Uang ${rp(P.m)}. Bangun rumah jika menguasai semua petak satu warna (harus rata, 5 = hotel). Jual rumah = setengah harga.</p>${rows}<div class="row"><button class="btn alt" id="tr">🤝 Tukar Aset</button><button class="btn" id="cl2">Selesai</button></div>`);
  document.querySelectorAll('#mod [data-a]').forEach(b=>b.onclick=()=>{const c=b.dataset.a[0],i=+b.dataset.a.slice(1),t=T[i];
   if(c==='b'){P.m-=t.hc;H[i]++}else if(c==='s'){P.m+=t.hc/2;H[i]--}else if(c==='m'){P.m+=t.p/2;Mg[i]=1}else{P.m-=ub(t);Mg[i]=0}
   render();manage()});
- $('#cl2').onclick=hide}
+ $('#cl2').onclick=hide;$('#tr').onclick=trade}
 const aiDo=(fn,ms=1300)=>{if(cp()&&cp().ai)setTimeout(()=>{if(cp().ai&&!S.over)fn()},ms)};
 function aiTurn(){const P=cp();if(!P.ai||P.out||S.over)return;setTimeout(()=>{if(cp()!==P||P.out||S.over)return;aiBuild(P);render();roll()},1000)}
 function aiJail(P){if(P.fj){P.fj--;const k=P.fk.pop();DK[k].unshift(FREE[k]);P.jail=0;log(`${P.n} pakai kartu bebas penjara`);return doRoll(0)}
  if(P.m>=300){pay(P,50);P.jail=0;log(`${P.n} bayar denda penjara`);return doRoll(0)}
  doRoll(1)}
 function aiBuild(P){const me=S.cur;let n=0;
- while(n++<8){const c=T.map((_,i)=>i).filter(i=>O[i]===me&&T[i].hc&&full(i)&&!T[i].set.some(j=>Mg[j])&&H[i]<5&&P.m-T[i].hc>=200&&T[i].set.every(j=>H[j]>=H[i])).sort((a,b)=>T[b].hc-T[a].hc)[0];
+ while(n++<8){const c=T.map((_,i)=>i).filter(i=>O[i]===me&&T[i].hc&&full(i)&&!T[i].set.some(j=>Mg[j])&&H[i]<5&&(H[i]<4?pool()[0]>0:pool()[1]>0)&&P.m-T[i].hc>=200&&T[i].set.every(j=>H[j]>=H[i])).sort((a,b)=>T[b].hc-T[a].hc)[0];
   if(c==null)break;P.m-=T[c].hc;H[c]++;log(`${P.n} membangun di ${T[c].n}`)}
  T.forEach((t,i)=>{if(O[i]===me&&Mg[i]){const u=Math.round(t.p/2*1.1);if(P.m-u>=300){P.m-=u;Mg[i]=0;log(`${P.n} menebus ${t.n}`)}}})}
+const mv=(i,to)=>{if(Mg[i])S.pl[to].m-=Math.round(T[i].p*.05);O[i]=to};
+function auction(i,done){const t=T[i];let bid=0,who=-1,cur=S.cur;const act=S.pl.map(p=>!p.out),nx=()=>{do{cur=(cur+1)%S.pl.length}while(!act[cur])};
+ const fin=()=>{if(who<0){log(`Lelang ${t.n}: tak ada penawar`);return info('🔨 Lelang','Tidak ada yang menawar. Petak tetap kosong.',done)}
+  const W=S.pl[who];W.m-=bid;O[i]=who;log(`${W.n} menang lelang ${t.n} (${rp(bid)})`);render();info('🔨 Lelang selesai',`${W.n} mendapat ${t.n} seharga ${rp(bid)}.`,done)};
+ const go=()=>{const left=act.filter(Boolean).length;if(who>=0?left<2:left<1)return fin();
+  const ix=cur,P=S.pl[ix],bd=v=>{if(S.over)return;bid=v;who=ix;nx();go()},ps=()=>{if(S.over)return;act[ix]=false;nx();go()};
+  show(`<h2>🔨 Lelang: ${t.e} ${t.n}</h2><p class="q">Harga petak ${rp(t.p)}. Tawaran tertinggi: ${who>=0?rp(bid)+' ('+S.pl[who].n+')':'belum ada'}.<br>Giliran menawar: <b>${P.n}</b> (uang ${rp(P.m)})</p><div class="row">${[10,50,100].map(v=>`<button class="btn" data-b="${bid+v}" ${bid+v>P.m?'disabled':''}>+${v} → ${bid+v}</button>`).join('')}<button class="btn alt" id="lp">Lewat</button></div>`);
+  $('#mod').classList.toggle('aiv',!!P.ai);document.querySelectorAll('#mod [data-b]').forEach(b=>b.onclick=()=>bd(+b.dataset.b));$('#lp').onclick=ps;
+  if(P.ai)setTimeout(()=>{if(S.over)return;const val=Math.min(P.m-100,Math.round(t.p*(t.set&&t.set.some(j=>O[j]===ix)?1.2:.8))),nb=Math.min(val,bid+pick([10,20,30]));nb>bid&&nb<=P.m?bd(nb):ps()},1100)};
+ go()}
+function trade(){const P=cp(),me=S.cur,ot=S.pl.map((_,j)=>j).filter(j=>j!==me&&!S.pl[j].out);if(!ot.length)return manage();
+ const ok=j=>T.map((_,i)=>i).filter(i=>O[i]===j&&!(T[i].set&&T[i].set.some(k=>H[k]>0))),sel=(id,a)=>`<select id="${id}"><option value="-1">— tidak ada —</option>${a.map(i=>`<option value="${i}">${T[i].e} ${T[i].n}${Mg[i]?' 🔒':''}</option>`).join('')}</select>`;
+ show(`<h2>🤝 Tukar Aset</h2><p>Rumah harus dijual dulu sebelum petaknya ditukar.</p><div class="row"><label>Dengan</label><select id="tp">${ot.map(j=>`<option value="${j}">${S.pl[j].n}</option>`).join('')}</select></div><div class="row"><label>Aset kamu</label>${sel('ta',ok(me))}</div><div class="row"><label>Aset mereka</label><span id="tb"></span></div><div class="row"><label>Uang dari kamu (rb, boleh minus)</label><input type="number" id="tc" value="0" step="10" style="width:90px"></div><div class="row"><button class="btn" id="tg">Tawarkan</button><button class="btn alt" id="tx">Batal</button></div>`);
+ const fill=()=>$('#tb').innerHTML=sel('tb2',ok(+$('#tp').value));fill();$('#tp').onchange=fill;$('#tx').onclick=manage;
+ $('#tg').onclick=()=>{const j=+$('#tp').value,a=+$('#ta').value,b=+$('#tb2').value,c=Math.round(+$('#tc').value||0),R=S.pl[j];
+  if(a<0&&b<0&&!c)return;if(P.m<c||R.m<-c)return info('🤝 Tidak bisa','Uang tidak cukup untuk tawaran ini.',trade);
+  const val=i=>i<0?0:T[i].p*(Mg[i]?.5:1),done=()=>{if(a>=0)mv(a,j);if(b>=0)mv(b,me);P.m-=c;R.m+=c;log(`${P.n} ↔ ${R.n}: tukar aset`);render();info('🤝 Disepakati!','Tukar aset berhasil.',manage)};
+  if(R.ai){const gain=val(a)+c-val(b)+(a>=0&&T[a].set&&T[a].set.filter(k=>O[k]===j).length===T[a].set.length-1?150:0);return gain>=0?done():info('🤝 Ditolak',`${R.n} menolak tawaran.`,trade)}
+  show(`<h2>🤝 ${R.n}, terima?</h2><p class="q">${P.n} memberi ${a>=0?T[a].n:'—'} ${c>0?'+ '+rp(c):''} dan meminta ${b>=0?T[b].n:'—'} ${c<0?'+ '+rp(-c):''}.</p><div class="row"><button class="btn" id="ty">Terima</button><button class="btn alt" id="tn">Tolak</button></div>`);$('#mod').classList.remove('aiv');$('#ty').onclick=done;$('#tn').onclick=trade}}
+/* ---------- Tutorial animasi ---------- */
+const sq=(n,i,h,st)=>`<span style="${st||''};animation:tq${n} ${n*2.2}s infinite ${i*2.2}s backwards">${h}</span>`,
+mt=(l,e,c,x)=>`<div class="mt" style="left:${l}px;${c?'background:'+c+';':''}${x||''}">${e}</div>`,
+coin=(i,st,an)=>`<span style="${st};animation:${an} 3s infinite ${i*.5}s backwards">🪙</span>`,
+cap='font-size:17px;font-weight:800';
+const TUT=[
+['Tujuan & Modal',`<span style="left:6%;top:50px;font-size:72px">👛</span>${[0,1,2,3,4].map(i=>coin(i,`left:${8+i*3}%;top:0`,'tfall')).join('')}<b class="f" style="left:38%;top:55px;font-size:34px">Rp1.500rb</b><span style="left:38%;top:105px;${cap}">modal awal tiap tim 💰</span>`,'Semua tim mulai dengan <b>modal yang sama</b>. Tujuannya jadi yang <b>terkaya</b>: tim lain bangkrut, atau kekayaanmu terbesar saat ronde habis. Kekayaan = uang + harga aset + rumah.'],
+['Giliran: Lempar Dadu',`${[['🏁'],['🍜','#9c6644'],['📚','#9c6644'],['🎴'],['☕','#f72585'],['🚆'],['🧾'],['🚔']].map((a,i)=>mt(8+i*48,a[0],a[1])).join('')}<i class="tkn" style="left:20px;top:40px;animation:twalk 4s steps(5) infinite"></i><span style="right:12px;top:8px;animation:tshake .5s infinite">🎲🎲</span>${sq(2,0,'🏁 Lewat START: <b>+Rp200rb</b>','left:10px;top:150px;'+cap)}${sq(2,1,'Kembar 🎲=🎲 → lempar lagi!','left:10px;top:150px;'+cap)}`,'Tekan <b>🎲 Lempar Dadu</b>. Bidakmu maju sebanyak jumlah dadu. Kalau <b>kembar</b>, kamu lempar lagi (3× kembar berturut-turut = penjara). Setiap lewat START kamu dapat <b>gaji Rp200rb</b>.'],
+['Petak Kosong: Beli',`<div class="mt" style="left:30px;top:30px;width:90px;height:110px;font-size:42px;animation:town 6.6s infinite"><div style="height:14px;background:#9c6644;margin:-14px -2px 4px"></div>🍜<br><small style="font-size:14px">Rp100rb</small></div>${sq(3,0,'🏷️ Diskon 20%<br>100 × 20% = ?','left:150px;top:50px;font-size:22px;font-weight:800')}${sq(3,1,'✏️ 100 − 20 = <b>80</b>','left:150px;top:70px;font-size:26px')}${sq(3,2,'✅ Beli Rp80rb!<br>Petak jadi milikmu','left:150px;top:50px;font-size:22px;font-weight:800')}`,'Mendarat di petak tanpa pemilik: jawab <b>soal diskon</b> (pakai kertas coret-coret). Benar = harga diskon, salah = harga normal. Lalu pilih <b>Beli</b> atau <b>Lewati</b>; kalau dilewati, petaknya <b>dilelang</b> ke semua tim.'],
+['Petak Milik Tim Lain: Sewa',`<div class="mt" style="left:240px;top:30px;width:90px;height:110px;font-size:42px;box-shadow:0 0 0 5px var(--green)">🏠<br><small style="font-size:14px">milik 🟢</small></div><i class="tkn" style="left:50px;top:75px;background:#3a6ea5"></i>${[0,1,2,3].map(i=>coin(i,'top:70px','tfly')).join('')}<span style="left:20px;top:20px;font-size:20px;font-weight:800">🔵 mendarat…</span>${sq(2,1,'Sewa <b>Rp20rb</b> → 🟢','left:90px;top:150px;font-size:20px;font-weight:800')}`,'Mendarat di petak milik tim lain = <b>bayar sewa</b>. Kamu menghitung sendiri besarnya lewat soal: benar = bayar pas, salah = ditambah <b>denda Rp10rb</b>. Petak yang digadaikan tidak ada sewanya.'],
+['Satu Warna & Bangun Rumah',`${[['🥤'],['🖨️'],['📱']].map((a,i)=>mt(40+i*80,a[0],'#4cc9f0','top:80px')+`<span style="left:${46+i*80}px;top:40px;font-size:30px;animation:tpop 6.6s infinite ${i*.3}s backwards">🏠</span>`).join('')}${sq(3,0,'Sewa biasa: Rp6rb','left:290px;top:60px;font-size:18px;font-weight:800')}${sq(3,1,'Satu warna lengkap:<br>sewa <b>×2</b> = Rp12rb','left:290px;top:60px;font-size:18px;font-weight:800')}${sq(3,2,'+ Rumah 🏠: sewa<br>naik tajam!','left:290px;top:60px;font-size:18px;font-weight:800')}`,'Kuasai <b>semua petak satu warna</b> → sewa ×2. Buka <b>🏗️ Kelola Aset</b> untuk membangun rumah (harus rata di semua petak warna itu, maks. 4 rumah), lalu <b>hotel</b>. Makin banyak rumah, sewa makin mahal. Persediaan: 32 rumah &amp; 12 hotel.'],
+['Stasiun, PLN & PDAM',`${[0,1,2,3].map(i=>sq(4,i,`${'🚆'.repeat(i+1)}<br><span style="font-size:20px;font-weight:800">Sewa Rp${25*2**i}rb</span>`,'left:0;right:0;top:34px;text-align:center')).join('')}<span style="left:12px;bottom:10px;font-size:15px;font-weight:800">⚡💧 PLN/PDAM: dadu × 4 (punya dua: × 10)</span>`,'<b>Stasiun</b>: sewa Rp25rb, 50, 100, 200rb sesuai jumlah stasiun yang dimiliki pemiliknya. <b>PLN/PDAM</b>: sewa = jumlah dadu × 4 (kalau pemiliknya punya keduanya, × 10).'],
+['Penjara',`${mt(250,'🚔','#ffd6a5','top:50px')}<span style="left:20px;top:55px;font-size:40px">👮</span><i class="tkn" style="top:85px;animation:tjail 4s infinite"></i><span style="left:250px;top:30px;font-size:44px;letter-spacing:-6px;opacity:.7">║║║</span><span style="left:10px;bottom:8px;${cap}">Keluar: 💵 Rp50rb · 🎟️ kartu · 🎲🎲 kembar</span>`,'Masuk penjara kalau mendarat di <b>Masuk Penjara</b>, ambil kartu penjara, atau <b>kembar 3×</b>. Keluar dengan: <b>bayar Rp50rb</b>, pakai <b>kartu Bebas Penjara</b>, atau coba <b>lempar kembar</b> (3 kali gagal = otomatis bayar Rp50rb). Di penjara kamu tetap bisa menerima sewa.'],
+['Kartu & Pajak',`<div style="left:12%;top:25px;width:90px;height:120px;border:3px solid var(--ink);border-radius:10px;background:var(--coin);text-align:center;padding-top:34px;font-size:46px;animation:tflip 3s infinite">🎴</div><div style="left:38%;top:25px;width:90px;height:120px;border:3px solid var(--ink);border-radius:10px;background:#d9edff;text-align:center;padding-top:34px;font-size:46px;animation:tflip 3s infinite .6s">📦</div><span style="right:10%;top:60px;font-size:54px">🧾</span><span style="left:12%;top:155px;font-size:15px;font-weight:800">Kesempatan · Dana Umum · Pajak</span>`,'<b>Kesempatan 🎴</b> dan <b>Dana Umum 📦</b>: ambil kartu, ikuti perintahnya (dapat uang, bayar, maju, mundur, atau penjara). <b>Pajak 🧾</b>: hitung persentase dari penghasilanmu, lalu bayar.'],
+['Uang Habis? Gadai, Lelang, Tukar',`${[['🔒','Gadai'],['🔨','Lelang'],['🤝','Tukar'],['💥','Bangkrut']].map((a,i)=>`<span style="left:${7+i*24}%;top:40px;font-size:50px;animation:tbob 1.6s infinite ${i*.2}s">${a[0]}</span><b style="left:${7+i*24}%;top:115px;font-size:16px">${a[1]}</b>`).join('')}`,'<b>Gadai</b> aset = dapat setengah harga (menebus +10%). <b>Jual rumah</b> = setengah harga. <b>Tukar 🤝</b> aset dengan tim lain lewat Kelola Aset. Kalau uang tetap tidak cukup, tim <b>bangkrut</b> dan asetnya pindah ke tim yang ditagih.'],
+['Cara Menang',`<span style="left:42%;top:50px;font-size:80px;animation:tbob 1.2s infinite">🏆</span>${[0,1,2,3,4,5].map(i=>`<span style="left:${8+i*16}%;top:-30px;font-size:24px;animation:tconf 3s infinite ${i*.45}s backwards">${['🎉','🪙','⭐','💰','✨','🎊'][i]}</span>`).join('')}`,'Kamu menang kalau <b>semua tim lain bangkrut</b>, atau <b>kekayaanmu paling besar</b> saat ronde habis. Ingat: tiap soal adalah kesempatan hemat atau rugi uang. <b>Selamat berhitung!</b> 🎲']];
+function tut(n){const el=$('#tut'),[h,sc,tx]=TUT[n],L=TUT.length;
+ el.innerHTML=`<div class="card"><div class="dots">${TUT.map((_,i)=>`<i class="${i===n?'on':''}"></i>`).join('')}</div><h2 style="margin-top:8px">${n+1}/${L} · ${h}</h2><div class="sc">${sc}</div><p class="q" style="font-size:17px;margin:6px 0 12px">${tx}</p><div class="row"><button class="btn alt" id="tp0" ${n?'':'disabled'}>◀ Kembali</button><button class="btn" id="tn0">${n<L-1?'Lanjut ▶':'Mulai Main ✔'}</button><button class="btn alt" id="tc0" style="margin-left:auto">Tutup</button></div></div>`;
+ el.style.display='flex';$('#tp0').onclick=()=>tut(n-1);$('#tn0').onclick=()=>n<L-1?tut(n+1):el.style.display='none';$('#tc0').onclick=()=>el.style.display='none'}
 function show(h){const m=$('#mod');m.innerHTML=`<div class="card">${h}</div>`;m.style.display='flex';m.classList.toggle('aiv',!!cp().ai);const b=m.querySelector('.btn');b&&b.focus()}
 const hide=()=>$('#mod').style.display='none';
 function info(title,txt,next){show(`<h2>${title}</h2><p class="q">${txt}</p><button class="btn" id="nx">Lanjut</button>`);$('#nx').onclick=next;aiDo(()=>{const b=$('#nx');b&&b.onclick===next&&next()})}
@@ -344,12 +396,12 @@ function pad(){
  $('#bg').onclick=()=>{const on=c.classList.toggle('xl');$('#bg').textContent=on?'⤡ Perkecil':'⤢ Perbesar';fit();c.scrollIntoView({block:'nearest'})};
 }
 const Z={t:'Kuis Kilat! Benar +Rp150rb, salah −Rp50rb',z:1},FREE={c:{t:'Kartu Bebas Penjara! Simpan dan pakai saat di penjara.',free:1},d:{t:'Kartu Bebas Penjara! Simpan dan pakai saat di penjara.',free:1}};
-const DKS={c:[{t:'Maju ke START, ambil gaji Rp200rb',go:1},{t:'Maju ke Gadget',to:24},{t:'Maju ke Kafe',to:11},{t:'Maju ke Stasiun Depok',to:25},{t:'Maju ke Gedung Tinggi',to:39},{t:'Bank membayar dividen Rp50rb',d:50},{t:'Pinjaman bangunan jatuh tempo. Terima Rp150rb',d:150},{t:'Denda ngebut. Bayar Rp15rb',d:-15},{t:'Mundur 3 petak',back:3},{t:'Masuk Penjara! Tidak lewat START.',jail:1},{t:'Perbaikan rumah: Rp25rb per rumah, Rp100rb per hotel',rep:[25,100]},{t:'Jadi ketua panitia! Bayar Rp50rb ke tiap tim lain',each:-50},Z,FREE.c],
+const DKS={c:[{t:'Maju ke START, ambil gaji Rp200rb',go:1},{t:'Maju ke Gadget',to:24},{t:'Maju ke Kafe',to:11},{t:'Maju ke Stasiun Depok',to:25},{t:'Maju ke Gedung Tinggi',to:39},{t:'Bank membayar dividen Rp50rb',d:50},{t:'Pinjaman bangunan jatuh tempo. Terima Rp150rb',d:150},{t:'Denda ngebut. Bayar Rp15rb',d:-15},{t:'Mundur 3 petak',back:3},{t:'Masuk Penjara! Tidak lewat START.',jail:1},{t:'Perbaikan rumah: Rp25rb per rumah, Rp100rb per hotel',rep:[25,100]},{t:'Jadi ketua panitia! Bayar Rp50rb ke tiap tim lain',each:-50},{t:'Maju ke Stasiun terdekat. Jika milik tim lain, sewa dikali 2.',near:'n'},{t:'Maju ke Stasiun terdekat. Jika milik tim lain, sewa dikali 2.',near:'n'},{t:'Maju ke PLN/PDAM terdekat. Jika milik tim lain, sewa 10× dadu.',near:'u'},Z,FREE.c],
 d:[{t:'Maju ke START, ambil gaji Rp200rb',go:1},{t:'Kesalahan bank menguntungkanmu. Terima Rp200rb',d:200},{t:'Biaya dokter. Bayar Rp50rb',d:-50},{t:'Jual saham. Terima Rp50rb',d:50},{t:'Pengembalian pajak. Terima Rp20rb',d:20},{t:'Asuransi jatuh tempo. Terima Rp100rb',d:100},{t:'Warisan. Terima Rp100rb',d:100},{t:'Biaya rumah sakit. Bayar Rp100rb',d:-100},{t:'Uang sekolah. Bayar Rp50rb',d:-50},{t:'Honor konsultan. Terima Rp25rb',d:25},{t:'Ulang tahun! Terima Rp10rb dari tiap tim lain',each:10},{t:'Masuk Penjara! Tidak lewat START.',jail:1},{t:'Perbaikan jalan: Rp40rb per rumah, Rp115rb per hotel',rep:[40,115]},Z,FREE.d]};
 let DK={c:[],d:[]};
 function rentOf(i,d){const t=T[i],o=O[i];
- if(t.k==='n'){const n=[5,15,25,35].filter(j=>O[j]===o).length,a=25*2**(n-1);return{a,q:Q(`Pemilik punya ${n} stasiun. Sewa 1 stasiun = 25rb, dikali 2 untuk tiap tambahan stasiun. Berapa sewa ${t.n} (rb)?`,a,`Sewa 1 stasiun = 25rb; Dikali 2 tiap tambahan; Stasiun pemilik = ${n}`,'Besar sewa',[['Tulis rumus',`Sewa = 25 × 2^(n − 1) = 25 × 2^${n-1}`],['Hitung pangkatnya',`2^${n-1} = ${2**(n-1)}`],['Kalikan',...X(25,2**(n-1))]],`sewanya ${rp(a)}.`)}}
- if(t.k==='u'){const n=[12,28].filter(j=>O[j]===o).length,k=n===2?10:4,a=k*d;return{a,q:Q(`Dadu terakhir berjumlah ${d}. Pemilik punya ${n} utilitas, sewa = ${k} × jumlah mata dadu. Berapa sewa ${t.n} (rb)?`,a,`Jumlah dadu = ${d}; Pengali = ${k}`,'Besar sewa',[['Kalikan pengali dengan jumlah dadu',...X(k,d)]],`sewanya ${rp(a)}.`)}}
+ if(t.k==='n'){const n=[5,15,25,35].filter(j=>O[j]===o).length,x=S.nx?2:1,a=25*2**(n-1)*x;return{a,q:Q(`${x>1?'Karena kartu, sewa dikali 2. ':''}Pemilik punya ${n} stasiun. Sewa 1 stasiun = 25rb, dikali 2 untuk tiap tambahan stasiun. Berapa sewa ${t.n} (rb)?`,a,`Sewa 1 stasiun = 25rb; Dikali 2 tiap tambahan; Stasiun pemilik = ${n}`,'Besar sewa',[['Tulis rumus',`Sewa = 25 × 2^(n − 1) = 25 × 2^${n-1}`],['Hitung pangkatnya',`2^${n-1} = ${2**(n-1)}`],['Kalikan',...X(25,2**(n-1))],...(x>1?[['Kartu: dikali 2',`${25*2**(n-1)} × 2 = ${a}`]]:[])],`sewanya ${rp(a)}.`)}}
+ if(t.k==='u'){const n=[12,28].filter(j=>O[j]===o).length,k=n===2||S.nx?10:4,a=k*d;return{a,q:Q(`Dadu terakhir berjumlah ${d}. Pemilik punya ${n} utilitas, sewa = ${k} × jumlah mata dadu. Berapa sewa ${t.n} (rb)?`,a,`Jumlah dadu = ${d}; Pengali = ${k}`,'Besar sewa',[['Kalikan pengali dengan jumlah dadu',...X(k,d)]],`sewanya ${rp(a)}.`)}}
  const n=H[i],b=t.r0,m=n?[1,5,15,45,80,125][n]:full(i)?2:1,a=b*m,ds=n?(n===5?'1 hotel':n+' rumah'):full(i)?'semua warna dikuasai (tanpa rumah)':'sewa biasa';
  return{a,q:Q(`${t.n}: sewa dasar ${rp(b)}. Kondisi: ${ds}, sehingga sewa dikali ${m}. Berapa sewanya (rb)?`,a,`Sewa dasar = ${b}rb; Pengali = ${m}`,'Besar sewa',[['Kalikan sewa dasar dengan pengali',...X(b,m)],['Cek masuk akal',`Pengali ${m} → sewa ${m>1?'lebih besar dari':'sama dengan'} sewa dasar ✓`]],`sewanya ${rp(a)}.`)}}
 function card(k){const P=cp(),me=S.cur,ti=k==='c'?'🎴 Kesempatan':'📦 Dana Umum';
@@ -359,12 +411,13 @@ function card(k){const P=cp(),me=S.cur,ti=k==='c'?'🎴 Kesempatan':'📦 Dana U
  if(c.d)c.d>0?P.m+=c.d:pay(P,-c.d);
  if(c.go){P.pos=0;P.m+=200}
  if(c.to!=null){if(c.to<P.pos){P.m+=200;log(`${P.n} lewat START, gaji ${rp(200)}`)}P.pos=c.to}
+ if(c.near){let q=P.pos;do{q=(q+1)%40}while(T[q].k!==c.near);if(q<P.pos){P.m+=200;log(`${P.n} lewat START, gaji ${rp(200)}`)}P.pos=q;S.nx=1}
  if(c.jail)jail(P);
  if(c.each)S.pl.forEach((p,j)=>{if(j!==me&&!p.out)c.each>0?pay(p,c.each,me):pay(P,-c.each,j)});
  if(c.rep){const[a,b]=c.rep;pay(P,O.reduce((s,o,j)=>s+(o===me?(H[j]===5?b:H[j]*a):0),0))}
  log(`${P.n}: ${c.t}`);render();
  if(c.back){P.pos=(P.pos+37)%40;render();return info(ti,c.t,()=>{hide();land()})}
- if(c.to!=null)return info(ti,c.t,()=>{hide();land()});
+ if(c.to!=null||c.near)return info(ti,c.t,()=>{hide();land()});
  info(ti,c.t,endTurn)}
 function land(){
  const P=cp(),i=P.pos,t=T[i],me=S.cur,E=endTurn;
@@ -384,14 +437,14 @@ function land(){
   return ask(`🏷️ ${t.n} (${rp(t.p)})`,Q(`Diskon ${d}%! ${t.n} (harga normal ${rp(t.p)}). Berapa harga setelah diskon (rb)?`,a,`Harga normal = ${t.p}rb; Diskon = ${d}%`,`Harga yang harus dibayar`,[['Hitung harga setelah diskon',...PB(t.p,d,false)],['Cek dengan cara lain',`Besar diskon = ${d}% × ${t.p} = ${t.p*d/100}`,`${t.p} − ${t.p*d/100} = ${a} ✓`]],`harga setelah diskon ${rp(a)}.`),
    ok=>{disc=ok;return ok?`Kamu berhak harga diskon ${rp(a)}.`:`Harga normal ${rp(t.p)} berlaku.`},
    ()=>{const pr=disc?a:t.p;show(`<h2>${t.e} ${t.n}</h2><p class="q">Beli seharga ${rp(pr)}? Uangmu ${rp(P.m)}.</p><div class="row"><button class="btn" id="by" ${P.m<pr?'disabled':''}>Beli</button><button class="btn alt" id="sk">Lewati</button></div>`);
-    $('#by').onclick=()=>{P.m-=pr;O[i]=me;log(`${P.n} membeli ${t.n} (${rp(pr)})`);render();full(i)?info('🎉 Monopoli!','Kamu menguasai semua petak warna ini. Sewa jadi 2× dan kamu boleh membangun rumah lewat Kelola Aset.',E):E()};$('#sk').onclick=E;aiDo(()=>{const b=$('#by');if(!b)return;(!b.disabled&&(P.m-pr>=200||(T[i].set&&T[i].set.some(j=>O[j]===me))))?b.onclick():E()})});
+    $('#by').onclick=()=>{P.m-=pr;O[i]=me;log(`${P.n} membeli ${t.n} (${rp(pr)})`);render();full(i)?info('🎉 Monopoli!','Kamu menguasai semua petak warna ini. Sewa jadi 2× dan kamu boleh membangun rumah lewat Kelola Aset.',E):E()};$('#sk').onclick=()=>auction(i,E);aiDo(()=>{const b=$('#by');if(!b)return;(!b.disabled&&(P.m-pr>=200||(T[i].set&&T[i].set.some(j=>O[j]===me))))?b.onclick():auction(i,E)})});
  }
  if(Mg[i])return info(t.e+' '+t.n,`Milik ${S.pl[ow].n}, tetapi sedang digadaikan. Tidak ada sewa.`,E);
  const R=rentOf(i,S.d);
  return ask(`🏠 Sewa ${t.n} milik ${S.pl[ow].n}`,R.q,ok=>{const a=pay(P,ok?R.a:R.a+10,ow);log(`${P.n} bayar sewa ${rp(a)} ke ${S.pl[ow].n}`);return`Kamu membayar ${rp(a)} ke ${S.pl[ow].n}${ok?'.':' (termasuk denda 10).'}`},E);
 }
 function endTurn(){
- hide();if(S.pl.filter(p=>!p.out).length<2)return over();
+ hide();S.nx=0;if(S.pl.filter(p=>!p.out).length<2)return over();
  const P=cp();
  if(S.dbl&&!P.out&&!P.jail){S.dbl=0;log(`${P.n} kembar, lempar lagi!`);$('#roll').disabled=!!P.ai;render();return aiTurn()}
  S.dbl=0;S.dc=0;
@@ -409,6 +462,7 @@ function over(){
 function names(){const n=+$('#np').value,ai=$('#md').value==='ai',old=[...document.querySelectorAll('#names input')].map(i=>i.value);
  $('#names').innerHTML=Array.from({length:n},(_,i)=>{const v=old[i]&&!/^Komputer/.test(old[i])?old[i]:'Tim '+(i+1),a=ai&&i>0;return`<div class="row"><span class="dot" style="background:${COL[i]}"></span><input type="text" maxlength="14" aria-label="Nama tim ${i+1}" value="${a?'Komputer '+i:v}"${a?' readonly':''}></div>`}).join('')}
 $('#np').onchange=$('#md').onchange=names;names();
+$('#how').onclick=$('#how2').onclick=()=>tut(0);try{if(!localStorage.getItem('mn_tut')){localStorage.setItem('mn_tut','1');setTimeout(()=>tut(0),400)}}catch(e){}
 $('#go').onclick=()=>{
  const ns=[...document.querySelectorAll('#names input')].map((x,i)=>x.value.trim()||'Tim '+(i+1)),cap=+$('#cap').value;
  S={pl:ns.map((n,i)=>({n,ai:$('#md').value==='ai'&&i>0,pos:0,m:cap,ok:0,no:0,jail:0,fj:0,fk:[],out:0})),cur:0,round:1,max:+$('#mr').value,lvl:$('#lv').value,dbl:0,dc:0,d:0,log:['Permainan dimulai. Selamat berhitung!']};
